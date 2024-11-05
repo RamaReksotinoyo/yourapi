@@ -29,7 +29,8 @@ import {
   
     async generateJwtToken(user: any) {
       const payload = {
-        email: user.email
+        email: user.email,
+        id: user._id
       };
       return {
         access_token: this.jwtService.sign(payload),

@@ -42,4 +42,8 @@ export class UserService {
       upsert: true,
     });
   }
+
+  // async findOneAndRemove(query: any): Promise<any> {
+  //   return this.userModel.findOneAndRemove(query);
+  // }
 }

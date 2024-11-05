@@ -48,6 +48,7 @@ async login(@Request() req): Promise<any> {
 @UseGuards(JwtAuthGuard)
 @Get('viewProfile')
 async getUser(@Request() req): Promise<any> {
+    console.log('req errr: ', req.user)
     return req.user;
 }
 }

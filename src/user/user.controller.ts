@@ -3,9 +3,11 @@ import {
     Post,
     Request,
     Logger,
+    ConflictException,
+    HttpStatus,
   } from '@nestjs/common';
-  import { ConflictException } from '@nestjs/common';
   import { UserService } from './user.service';
+  import { BaseResponse } from 'src/utils/base-response';
   
   @Controller('user')
   export class UserController {

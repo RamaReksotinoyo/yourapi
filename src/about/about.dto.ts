@@ -1,8 +1,9 @@
 import { IsOptional, IsString, IsDateString } from 'class-validator';
 
 export class CreateAboutDto {
-  @IsString()
-  userId: string; // ID pengguna yang harus ada
+    @IsOptional()
+    @IsString()
+    userId?: string; // ID pengguna, tidak diinput manual
 
   @IsOptional()
   @IsString()

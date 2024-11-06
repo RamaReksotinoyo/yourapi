@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Injectable, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Injectable, UseGuards, Request, Get, Put } from '@nestjs/common';
 import { AboutService } from './about.service';
 import { CreateAboutDto } from './about.dto';
 import { About } from './about.model';
@@ -13,7 +13,23 @@ export class AboutController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createAboutDto: CreateAboutDto): Promise<About> {
-    return this.aboutService.createProfile(createAboutDto);
+  async create(@Request() req, @Body() createAboutDto: CreateAboutDto): Promise<About> {
+    const userId = req.user.id;
+
+    return this.aboutService.createProfile({ ...createAboutDto, userId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getProfile(@Request() req): Promise<About> {
+    const userId = req.user.id;
+    return this.aboutService.getProfile(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put()
+  async updateProfile(@Request() req, @Body() updateProfileDto: Partial<CreateAboutDto>): Promise<About> {
+    const userId = req.user.id;
+    return this.aboutService.updateProfile(userId, updateProfileDto);
   }
 }

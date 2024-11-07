@@ -3,19 +3,28 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { About, AboutDocument } from './about.model';
 import { CreateAboutDto } from './about.dto';
+import { calculateZodiac } from '../utils/calculateZodiac';
+
 
 @Injectable()
 export class AboutService {
   constructor(@InjectModel(About.name) private profileModel: Model<AboutDocument>) {}
 
   async createProfile(createProfileDto: CreateAboutDto): Promise<About> {
-    const existingAbout = await this.profileModel.findOne({ userId: createProfileDto.userId });
+    const { userId, birthDate } = createProfileDto;
+    const existingAbout = await this.profileModel.findOne({ userId });
 
     if (existingAbout) {
       throw new ConflictException('User already has an About profile.');
     }
 
-    const about = new this.profileModel(createProfileDto);
+    const zodiac = birthDate ? calculateZodiac(birthDate) : undefined;
+
+    const about = new this.profileModel({
+      ...createProfileDto,
+      zodiac,
+    });
+
     return about.save();
   }
 
@@ -30,9 +39,11 @@ export class AboutService {
   }
 
   async updateProfile(userId: string, updateProfileDto: Partial<CreateAboutDto>): Promise<About> {
+    const zodiac = updateProfileDto.birthDate ? calculateZodiac(updateProfileDto.birthDate) : undefined;
+
     const about = await this.profileModel.findOneAndUpdate(
       { userId },
-      { $set: updateProfileDto },
+      { $set: { ...updateProfileDto, zodiac } },
       { new: true, runValidators: true },
     );
 

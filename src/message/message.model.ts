@@ -12,9 +12,6 @@ export class Message {
   @Prop({ required: true })
   content: string;
 
-  @Prop({ default: false })
-  isRead: boolean;
-
   @Prop({ default: Date.now })
   timestamp: Date;
 }

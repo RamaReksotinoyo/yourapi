@@ -3,7 +3,7 @@ import { IsOptional, IsString, IsDateString } from 'class-validator';
 export class CreateAboutDto {
     @IsOptional()
     @IsString()
-    userId?: string; // ID pengguna, tidak diinput manual
+    userId?: string;
 
   @IsOptional()
   @IsString()
@@ -16,14 +16,6 @@ export class CreateAboutDto {
   @IsOptional()
   @IsDateString()
   birthDate?: Date;
-
-  @IsOptional()
-  @IsString()
-  zodiac?: string;
-
-  @IsOptional()
-  @IsString()
-  horoscope?: string;
 
   @IsOptional()
   @IsString()

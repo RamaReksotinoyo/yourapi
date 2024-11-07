@@ -19,8 +19,8 @@ export class About {
   @Prop()
   zodiac?: string;
 
-  @Prop()
-  horoscope?: string;
+  // @Prop()
+  // horoscope?: string;
 
   @Prop()
   bio?: string;

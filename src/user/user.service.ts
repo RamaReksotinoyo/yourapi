@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './user.model';
 import { AuthService } from '../auth/auth.service';
+import { validatePassword } from '../utils/passwordValidation'
+import { validateMail } from '../utils/emailValidation'
 
 @Injectable()
 export class UserService {
@@ -22,6 +24,23 @@ export class UserService {
   async create(user: any): Promise<any> {
     this.logger.log('Creating user.');
    
+    // Validasi Email
+    const invalidEmail = await validateMail(user.email)
+    if (invalidEmail != null) {
+      throw new BadRequestException('Invalid email');
+    } 
+
+    // Validasi username
+    if (user.username.length < 5 || user.username.length > 25) {
+      throw new BadRequestException('Username must be between 5 and 20 characters.');
+    }
+
+    // Validasi username
+    const invalidPassword = validatePassword(user.password)
+    if (invalidPassword) {
+      throw new BadRequestException('Passwords must consist of 8 characters, lowercase, uppercase, numbers, and symbols.');
+    } 
+
     // Validasi password dan confirmPassword
     if (user.password !== user.confirmPassword) {
         throw new BadRequestException('Password and confirm password do not match.');

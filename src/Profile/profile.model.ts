@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { User } from '../user/user.model'; // Pastikan path ini sesuai dengan lokasi file user.model.ts
+import { User } from '../user/user.model'; 
 
 @Schema()
-export class About {
+export class Profile {
   @Prop()
   userId: string; // ID pengguna yang mengacu pada User
 
@@ -33,13 +33,13 @@ export class About {
 }
 
 // Type untuk dokumen Profile
-export type AboutDocument = About & Document;
+export type ProfileDocument = Profile & Document;
 
 // Membuat schema untuk Profile
-export const AboutSchema = SchemaFactory.createForClass(About);
+export const ProfileSchema = SchemaFactory.createForClass(Profile);
 
 // Menambahkan referensi ke model User
-AboutSchema.virtual('user', {
+ProfileSchema.virtual('user', {
   ref: User.name, // Nama model User
   localField: 'userId', // Field di Profile yang berisi ID pengguna
   foreignField: '_id', // Field di User yang berfungsi sebagai referensi

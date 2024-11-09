@@ -7,6 +7,8 @@ import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './profile.dto';
 import { Profile } from './profile.model';
 import { AuthGuard } from '@nestjs/passport';
+import { BaseResponseSuccess  } from 'src/utils/base-response';
+
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {}
@@ -18,26 +20,30 @@ export class ProfileController {
   @UseGuards(JwtAuthGuard)
   @Post('createProfile')
   @UsePipes(new ValidationPipe())
-  async create(@Request() req, @Body() createProfileDto: CreateProfileDto): Promise<Profile> {
+  async create(@Request() req, @Body() createProfileDto: CreateProfileDto): Promise<BaseResponseSuccess<Profile>> {
     const userId = req.user.id;
 
-    return this.profileService.createProfile({ ...createProfileDto, userId });
+    const data = await this.profileService.createProfile({ ...createProfileDto, userId });
+    
+    return new BaseResponseSuccess(data, 201, 'Created');
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('getProfile')
-  async getProfile(@Request() req): Promise<Profile> {
+  async getProfile(@Request() req): Promise<BaseResponseSuccess<Profile>> {
     const userId = req.user.id;
-    return this.profileService.getProfile(userId);
+    const data = await this.profileService.getProfile(userId);
+    return new BaseResponseSuccess(data, 200, 'Ok');
   }
 
   @UseGuards(JwtAuthGuard)
   @Put('updateProfile')
   @UsePipes(new ValidationPipe())
-  async updateProfile(@Request() req, @Body() updateProfileDto: CreateProfileDto): Promise<Profile> {
+  async updateProfile(@Request() req, @Body() updateProfileDto: CreateProfileDto): Promise<BaseResponseSuccess<Profile>> {
     try {
       const userId = req.user.id;
-      return await this.profileService.updateProfile(userId, updateProfileDto);
+      const data = await this.profileService.updateProfile(userId, updateProfileDto);
+      return new BaseResponseSuccess(data, 201, 'Updated');
     } catch (error) {
       if (error instanceof BadRequestException || error instanceof NotFoundException) {
         throw error;

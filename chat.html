@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket.IO Chat Test</title>
+    <!-- Gunakan CDN Socket.IO terbaru -->
+    <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="messages"></div>
+    <input type="text" id="receiverIdInput" placeholder="Receiver User ID">
+    <input type="text" id="messageInput" placeholder="Ketik pesan">
+    <button id="sendButton">Kirim</button>
+
+    <script>
+        // Konfigurasi socket dengan error handling
+        let socket;
+        try {
+            // Sesuaikan dengan URL backend Anda
+            socket = io('http://localhost:3000', {
+                auth: {
+                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1yLnN1cGVyc3RpdGlvbkB0dXRhbm90YS5jb20iLCJpZCI6IjY3MmEwYzM0MmM3OTg0NTljMzI0M2EyMCIsImlhdCI6MTczMTI0OTk0MCwiZXhwIjoxNzMxMjUyOTQwfQ.P_73nipguVfVR9J9B3HxR3_bAI1E4ZJspzGvFB_XdaQ' // Ganti dengan token aktual
+                }
+            });
+
+            // Event connection
+            socket.on('connect', () => {
+                console.log('Connected to socket server');
+                // Registrasi user - ganti dengan ID user Anda
+                socket.emit('register', '672a0c342c798459c3243a20');
+            });
+
+            // Event error koneksi
+            socket.on('connect_error', (error) => {
+                console.error('Connection error:', error);
+                alert('Gagal terhubung ke server: ' + error.message);
+            });
+
+            // Listener pesan baru
+            socket.on('newMessage', (message) => {
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.innerHTML += `<p>${message.senderId}: ${message.content}</p>`;
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+
+            // Event listener untuk tombol kirim
+            document.getElementById('sendButton').addEventListener('click', () => {
+                const receiverId = document.getElementById('receiverIdInput').value;
+                const messageInput = document.getElementById('messageInput');
+                
+                if (!receiverId || !messageInput.value) {
+                    alert('Harap isi ID penerima dan pesan');
+                    return;
+                }
+
+                // Kirim pesan
+                socket.emit('sendMessage', {
+                    senderId: '672a0c342c798459c3243a20', // Ganti dengan ID user Anda
+                    receiverId: receiverId,
+                    content: messageInput.value
+                });
+
+                // Tampilkan pesan terkirim
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.innerHTML += `<p style="color:blue;">Anda: ${messageInput.value}</p>`;
+                
+                // Reset input
+                messageInput.value = '';
+            });
+
+            // Listener konfirmasi pesan terkirim
+            socket.on('messageSent', (message) => {
+                console.log('Pesan terkirim:', message);
+            });
+
+        } catch (error) {
+            console.error('Socket initialization error:', error);
+            alert('Gagal menginisialisasi socket: ' + error.message);
+        }
+    </script>
+</body>
+</html>

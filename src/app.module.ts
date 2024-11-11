@@ -6,11 +6,13 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProfileModule } from './Profile/profile.module';
 import { MessageModule } from './message/message.module';
+import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/yourapi'),
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.DATABASE_URL),
     UserModule,
     AuthModule,
     ProfileModule,

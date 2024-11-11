@@ -4,6 +4,7 @@ import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
 import { Message, MessageSchema } from './message.model';
 import { UserModule } from '../user/user.module';
+import { MessageGateway } from './message.gateway';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { UserModule } from '../user/user.module';
     forwardRef(() => UserModule),
   ],
   controllers: [MessageController],
-  providers: [MessageService]
+  providers: [MessageService],
+  exports: [MessageService],
 })
 export class MessageModule {}

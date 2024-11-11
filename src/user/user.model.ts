@@ -12,8 +12,8 @@ export class User {
   @Prop({ select: false })
   password: string;
 
-  @Prop({ select: false })
-  confirmPassword: string;
+  // @Prop({ select: false })
+  // confirmPassword: string;
 }
 
 export type UserDocument = User & Document;

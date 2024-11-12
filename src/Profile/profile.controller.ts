@@ -7,7 +7,7 @@ import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './profile.dto';
 import { Profile } from './profile.model';
 import { AuthGuard } from '@nestjs/passport';
-import { BaseResponseSuccess  } from 'src/utils/base-response';
+import { BaseResponseSuccess  } from '../utils/base-response';
 
 
 @Injectable()

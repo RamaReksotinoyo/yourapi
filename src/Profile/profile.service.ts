@@ -20,12 +20,12 @@ export class ProfileService {
 
     const zodiac = birthDate ? calculateZodiac(birthDate) : undefined;
 
-    const profile = new this.profileModel({
+    const profile = await this.profileModel.create({
       ...createProfileDto,
       zodiac,
     });
 
-    return profile.save();
+    return profile;
   }
 
   async getProfile(userId: string): Promise<Profile> {

@@ -27,7 +27,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'JWT_SECRET',
+      secret: 'JWT_FAFIFU',
       signOptions: { expiresIn: '3000s' },
     }),
     forwardRef(() => UserModule),

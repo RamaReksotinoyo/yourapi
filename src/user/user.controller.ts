@@ -7,7 +7,7 @@ import {
     HttpStatus,
   } from '@nestjs/common';
   import { UserService } from './user.service';
-  import { BaseResponseSuccess  } from 'src/utils/base-response';
+  import { BaseResponseSuccess  } from '../utils/base-response';
   
   @Controller('api')
   export class UserController {

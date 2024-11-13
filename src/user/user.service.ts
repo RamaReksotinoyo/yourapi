@@ -50,8 +50,8 @@ export class UserService {
       user.password
     );
     user.password = hashedPassword;
-    const newUser = new this.userModel(user);
-    return newUser.save();
+    const newUser = await this.userModel.create(user);
+    return newUser;
   }
 
   async findOneAndUpdate(query: any, payload: any): Promise<User> {

@@ -1,10 +1,8 @@
 import { Controller, Post, Get, Body, Query, UseGuards, Request, Injectable, NotFoundException } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { AuthGuard } from '@nestjs/passport';
-import { BaseResponseSuccess  } from 'src/utils/base-response';
-
-@Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {}
+import { BaseResponseSuccess  } from '../utils/base-response';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('api')
 export class MessageController {

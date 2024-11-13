@@ -19,12 +19,12 @@ export class MessageService {
     const user = await this.UserService.findOne({ _id: receiverId });
     if (!user) throw new BadRequestException('ReciverId Not Found');
 
-    const message = new this.messageModel({
+    const message = await this.messageModel.create({
       senderId,
       receiverId,
       content,
     });
-    return await message.save();
+    return message;
   }
 
   // View messages between two users

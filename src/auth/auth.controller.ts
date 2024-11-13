@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { BaseResponseSuccess  } from 'src/utils/base-response';
+import { BaseResponseSuccess  } from '../utils/base-response';
 
   
 @Injectable()

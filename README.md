@@ -1,99 +1,146 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+Just runing the tests `npm test -- --verbose`
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
 ```
+ PASS  src/auth/auth.service.spec.ts (7.417 s)
+  AuthService
+    √ should be defined (20 ms)
+    validateUser
+      √ should validate user successfully (6 ms)
+      √ should throw BadRequestException if email does not exist (18 ms)
+      √ should throw BadRequestException if password is invalid (3 ms)
+    generateJwtToken
+      √ should generate JWT token (4 ms)
+    getHashedPassword
+      √ should hash password successfully (2 ms)
+      √ should handle hashing error (5 ms)
 
-## Compile and run the project
+ PASS  src/message/message.service.spec.ts (7.426 s)
+  MessageService
+    √ should be defined (30 ms)
+    sendMessage
+      √ should successfully send a message (10 ms)
+      √ should throw BadRequestException if receiver not found (17 ms)
+    viewMessages
+      √ should return messages between two users (6 ms)
 
-```bash
-# development
-$ npm run start
+ PASS  src/auth/jwtStrategy.spec.ts (7.547 s)
+  JwtStrategy
+    √ should be defined (34 ms)
+    validate
+      √ should return the user when validated (5 ms)
+      √ should throw an UnauthorizedException if user is not found (18 ms)
 
-# watch mode
-$ npm run start:dev
+ PASS  src/auth/auth.controller.spec.ts      
+  AuthController
+    √ should be defined (18 ms)
+    login
+      √ should return JWT token on successful login (7 ms)
+    getUser
+      √ should return user profile (4 ms)
 
-# production mode
-$ npm run start:prod
+ PASS  src/message/message.gateway.spec.ts   
+  MessageGateway
+    √ should be defined (28 ms)
+    handleConnection
+      √ should log when client connects (7 ms)
+    handleDisconnect
+      √ should remove user from userSockets map when disconnecting (3 ms)
+    handleRegister
+      √ should register user socket (6 ms)
+    handleMessage
+      √ should handle message sending and notify receivers (6 ms)
+      √ should not emit to receiver if receiver is not connected (5 ms)
+
+ PASS  src/Profile/profile.controller.spec.ts
+  ProfileController
+    create
+      √ should create a profile successfully (19 ms)
+    getProfile
+      √ should get profile successfully (5 ms)
+      √ should throw NotFoundException when profile not found (19 ms)
+    updateProfile
+      √ should update profile successfully (3 ms)
+      √ should throw BadRequestException when update fails (5 ms)
+      √ should pass through NotFoundException from service (3 ms)
+
+ PASS  src/message/message.controller.spec.ts
+  MessageController
+    √ should be defined (16 ms)
+    sendMessage
+      √ should send a message successfully (5 ms)
+    viewMessages
+      √ should return messages between users (3 ms)
+
+[Nest] 20040  - 11/13/2024, 14:25:34   ERROR [UserController] Something went wrong in signup:
+[Nest] 20040  - 11/13/2024, 14:25:34   ERROR [UserController] ConflictException: User Already Exist
+ PASS  src/user/user.controller.spec.ts
+  UserController
+    √ should be defined (28 ms)
+    create
+      √ should create a new user successfully (10 ms)
+      √ should throw ConflictException if user already exists (24 ms)
+
+ PASS  src/user/user.service.spec.ts      
+  UserService
+    √ should be defined (19 ms)
+    create
+      √ should create a user successfully (10 ms)
+      √ should throw BadRequestException for invalid username length (21 ms)
+      √ should throw BadRequestException for password mismatch (4 ms)
+    findOne
+      √ should find a user (3 ms)
+
+ PASS  src/utils/emailValidation.spec.ts
+  validateMail
+    √ should return null for a valid email with existing domain (4 ms)
+    √ should return "Invalid email" for an invalid email format
+    √ should return "Domain email not found" for a non-existing domain (1 ms)
+    √ should return "Domain email not found" for an email with no MX records (1 ms)
+
+ PASS  src/app.controller.spec.ts
+  AppController
+    root
+      √ should return "Hello World!" (38 ms)
+
+ PASS  src/utils/passwordValidation.spec.ts
+  validatePassword
+    √ should return an error for passwords less than 8 (2 ms)
+    √ should return an error for passwords without uppercase
+    √ should return an error for passwords without lowercase (1 ms)
+    √ should return an error for passwords without symbols
+    √ should return an error for passwords without uppercase, lowercase, and symbols (1 ms)
+    √ should return null for valid passwords
+
+ PASS  src/utils/calculateZodiac.spec.ts
+  calculateZodiac
+    √ should return Aries for March 21 (3 ms)
+    √ should return Taurus for April 20 (1 ms)
+    √ should return Gemini for June 15 (1 ms)
+    √ should return Cancer for July 22
+    √ should return Leo for August 1 (1 ms)
+    √ should return Virgo for September 1
+    √ should return Libra for October 10
+    √ should return Scorpio for November 1
+    √ should return Sagittarius for December 15
+    √ should return Capricorn for January 10 (1 ms)
+    √ should return Aquarius for February 5 (1 ms)
+    √ should return Pisces for March 10 (1 ms)
+
+ PASS  src/Profile/profile.service.spec.ts
+  ProfileService
+    √ should throw ConflictException if user already has a profile (31 ms)
+    √ should create a profile if user does not have one (5 ms)
+    √ should return a profile if it exists (2 ms)
+    √ should throw NotFoundException if profile does not exist (2 ms)
+    getProfile
+      √ should return profile if found (5 ms)
+      √ should throw NotFoundException if profile not found (2 ms)
+    updateProfile
+      √ should update and return the updated profile if found (2 ms)
+      √ should throw NotFoundException if profile to update is not found (2 ms)
+
+Test Suites: 14 passed, 14 total
+Tests:       71 passed, 71 total
+Snapshots:   0 total
+Time:        12.059 s, estimated 13 s
 ```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).

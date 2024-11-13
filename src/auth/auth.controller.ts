@@ -11,10 +11,8 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { BaseResponseSuccess  } from '../utils/base-response';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
-  
-@Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {}
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {

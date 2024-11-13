@@ -8,10 +8,8 @@ import { CreateProfileDto } from './profile.dto';
 import { Profile } from './profile.model';
 import { AuthGuard } from '@nestjs/passport';
 import { BaseResponseSuccess  } from '../utils/base-response';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-
-@Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {}
 
 @Controller('api')
 export class ProfileController {

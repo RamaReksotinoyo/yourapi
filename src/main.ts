@@ -1,6 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './filter/validation-exception.filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,12 +11,24 @@ async function bootstrap() {
     new ValidationPipe(),
   );
 
-  // Aktifkan CORS
+  app.useGlobalFilters(new HttpExceptionFilter());
+
   app.enableCors({
-    origin: true, // Sesuaikan dengan domain frontend
+    origin: true,
     methods: ['GET', 'POST'],
     credentials: true
   });
+
+  const options = new DocumentBuilder()
+    .setTitle('YourApp')
+    .setDescription('YourApp Docs')
+    .setVersion('1.0')
+    .addServer('http://localhost:3000/', 'Local environment')
+    .addTag('YourApp Docs')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }

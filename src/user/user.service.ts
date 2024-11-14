@@ -24,24 +24,24 @@ export class UserService {
   async create(user: any): Promise<any> {
     this.logger.log('Creating user.');
    
-    // Validasi Email
+    // Email validation
     const invalidEmail = await validateMail(user.email)
     if (invalidEmail != null) {
       throw new BadRequestException('Invalid email');
     } 
 
-    // Validasi username
+    // Username validation
     if (user.username.length < 5 || user.username.length > 25) {
       throw new BadRequestException('Username must be between 5 and 20 characters.');
     }
 
-    // Validasi username
+    // Password validation
     const invalidPassword = validatePassword(user.password)
     if (invalidPassword) {
       throw new BadRequestException('Passwords must consist of 8 characters, lowercase, uppercase, numbers, and symbols.');
     } 
 
-    // Validasi password dan confirmPassword
+    // password and confirmPassword validation (Must be same)
     if (user.password !== user.confirmPassword) {
         throw new BadRequestException('Password and confirm password do not match.');
     }
@@ -61,8 +61,4 @@ export class UserService {
       upsert: true,
     });
   }
-
-  // async findOneAndRemove(query: any): Promise<any> {
-  //   return this.userModel.findOneAndRemove(query);
-  // }
 }

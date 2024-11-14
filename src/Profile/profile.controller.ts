@@ -21,7 +21,7 @@ export class ProfileController {
   @Post('createProfile')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create user profile' })
-  @ApiBody({ type: CreateProfileDto })
+  @ApiBody({ type: CreateProfileBody })
   @ApiResponse({ 
     status: 201, 
     description: 'Profile created successfully',

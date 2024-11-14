@@ -8,6 +8,8 @@ import {
   } from '@nestjs/common';
   import { UserService } from './user.service';
   import { BaseResponseSuccess  } from '../utils/base-response';
+  import { CreateUserDto } from './create-user.dto';
+  import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
   
   @Controller('api')
   export class UserController {
@@ -17,6 +19,25 @@ import {
     }
   
     @Post('register')
+    @ApiOperation({ summary: 'Register new user' })
+    @ApiBody({ type: CreateUserDto })
+    @ApiResponse({ 
+      status: 201, 
+      description: 'User successfully created',
+      schema: {
+        example: {
+          data: {
+            username: 'johndoe',
+            email: 'user@example.com',
+            _id: '507f1f77bcf86cd799439011'
+          },
+          statusCode: 201,
+          message: 'Created'
+        }
+      }
+    })
+    @ApiResponse({ status: 400, description: 'Bad Request' })
+    @ApiResponse({ status: 409, description: 'User Already Exists' })
     async create(@Request() req): Promise<any> {
       const newUser = req.body;
       try {

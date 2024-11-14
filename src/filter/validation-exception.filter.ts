@@ -1,19 +1,30 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus  } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, BadRequestException } from '@nestjs/common';
 import { Response } from 'express';
 
-@Catch()
-export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: any, host: ArgumentsHost) {
+import {
+    HttpException,
+    HttpStatus,
+  } from '@nestjs/common';
+
+@Catch(BadRequestException)
+export class ValidationExceptionFilter implements ExceptionFilter {
+  catch(exception: BadRequestException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const status = exception instanceof HttpException 
-      ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
+    const status = exception.getStatus();
+    const exceptionResponse = exception.getResponse();
+
+    const message =
+      exceptionResponse instanceof Object && 'message' in exceptionResponse
+        ? (exceptionResponse as any).message
+        : 'Bad Request';
+
+    const formattedMessage = Array.isArray(message) ? message.join('; ') : message;
 
     response.status(status).json({
       statusCode: status,
-      message: 'Internal server error',
-      error: exception.message
+      error: 'Bad Request',
+      message: formattedMessage,
     });
   }
 }

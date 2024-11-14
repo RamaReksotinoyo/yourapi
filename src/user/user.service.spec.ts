@@ -48,7 +48,7 @@ describe('UserService', () => {
   describe('create', () => {
     const mockUser = {
       username: 'testuser',
-      email: 'test@example.com',
+      email: 'testing@example.com',
       password: 'Fafifu123!',
       confirmPassword: 'Fafifu123!',
     };

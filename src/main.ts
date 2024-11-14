@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './filter/validation-exception.filter';
+import { ValidationExceptionFilter } from './filter/validation-exception.filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -11,7 +11,7 @@ async function bootstrap() {
     new ValidationPipe(),
   );
 
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new ValidationExceptionFilter());
 
   app.enableCors({
     origin: true,
@@ -24,6 +24,7 @@ async function bootstrap() {
     .setDescription('YourApp Docs')
     .setVersion('1.0')
     .addServer('http://localhost:3000/', 'Local environment')
+    .addBearerAuth()
     .addTag('YourApp Docs')
     .build();
 
